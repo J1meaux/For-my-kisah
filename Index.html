@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Kisah 😼</title>
+
+<!-- YOUR FONT (unchanged) -->
+<link href="https://fonts.googleapis.com/css2?family=Delius+Swash+Caps&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Delius Swash Caps', cursive;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f8b4b4;
+  text-align: center;
+  overflow: hidden;
+  transition: opacity 0.5s ease;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* buttons layout */
+#buttons {
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-family: 'Delius Swash Caps', cursive;
+}
+
+#yesBtn { background:#ff4d6d; }
+#noBtn  { background:#555; }
+
+/* floating hearts (kept) */
+.heart {
+  position: fixed;
+  bottom: -10px;
+  font-size: 20px;
+  animation: floatUp 5s linear infinite;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+  <h1>Special for my Kisah 🤙</h1>
+  <h2>Will you accept me as your boyfriend? 💖</h2>
+
+  <img src="high.gif" width="200">
+
+  <div id="buttons">
+    <button id="yesBtn">Yes 😻</button>
+    <button id="noBtn">No 😿</button>
+  </div>
+
+</div>
+
+<audio id="bgMusic" loop autoplay>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const app = document.getElementById("app");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const music = document.getElementById("bgMusic");
+
+/* autoplay fallback (Brave safe) */
+music.volume = 0.5;
+music.play().catch(()=>{
+  document.addEventListener("click",()=>music.play(),{once:true});
+});
+
+/* floating hearts */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerText="💖";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),5000);
+},300);
+
+/* move NO button (desktop + mobile) */
+function moveNoButton(){
+  noBtn.style.position="fixed";
+  noBtn.style.left = Math.random()*(window.innerWidth-100)+"px";
+  noBtn.style.top  = Math.random()*(window.innerHeight-100)+"px";
+}
+
+/* desktop */
+document.addEventListener("mousemove",(e)=>{
+  let rect = noBtn.getBoundingClientRect();
+  let dist = Math.hypot(
+    e.clientX - (rect.left + rect.width/2),
+    e.clientY - (rect.top + rect.height/2)
+  );
+  if(dist < 120) moveNoButton();
+});
+
+/* mobile */
+noBtn.addEventListener("touchstart",(e)=>{
+  e.preventDefault();
+  moveNoButton();
+});
+
+/* YES flow */
+yesBtn.addEventListener("click",()=>{
+
+  app.style.opacity = 0;
+
+  setTimeout(()=>{
+    app.innerHTML = `
+      <h1>Processing jap... 🗣️</h1>
+      <img src="Dog.gif">
+    `;
+    app.style.opacity = 1;
+
+    setTimeout(()=>{
+      app.style.opacity = 0;
+
+      setTimeout(()=>{
+        app.innerHTML = `
+          <h1>For a thousand year!!!!111!!1 💕</h1>
+          <img src="Yay.gif">
+          <p id="loveMsg" style="opacity:0; transition: opacity 1s;">
+            Thank you for accepting my love 💖.
+            I didn't know we had come this far because, to be honest, it initially felt like a joke meant to tease our friends, but it has now become real, and we have started to love each other.
+            Other than that, I really love how you were not just pretty but also achieved being a wonderful one. 
+            I'm really impressed by it, and I hope I can be part of your family someday. To be fair, you are beyond my reach, but Insyaallah, I can aim to be the best.
+          </p>
+        `;
+        app.style.opacity = 1;
+
+        /* fade paragraph */
+        setTimeout(()=>{
+          document.getElementById("loveMsg").style.opacity = 1;
+
+          /* 🔔 notify via WhatsApp */
+          setTimeout(()=>{
+            window.open("https://wa.me/60168182735?text=She%20said%20YES%20💖","_blank");
+          // Discord webhook
+  fetch("https://discord.com/api/webhooks/1495515292443349202/8QIcfZJeVnW66w6IlqoDw_oGfN-esBTiuGzmuAKxH5zXGBh2_n33V5Kf1T0DfgYA-UgQ", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      content: "🚨 She clicked YES 💖🔥"
+    })
+  }).catch(err => console.log(err));
+
+},1000);
+
+        },800);
+
+      },500);
+
+    },2000);
+
+  },500);
+
+});
+</script>
+
+</body>
+</html>
